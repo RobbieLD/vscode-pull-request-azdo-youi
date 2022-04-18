@@ -335,19 +335,19 @@ export class ReviewCommentController
 		);
 	}
 
-	private visibleEditorsEqual(a: vscode.TextEditor[], b: vscode.TextEditor[]): boolean {
+	private visibleEditorsEqual(a: vscode.TextEditor[], b: readonly vscode.TextEditor[]): boolean {
 		a = a.filter(ed => ed.document.uri.scheme !== 'comment');
-		b = b.filter(ed => ed.document.uri.scheme !== 'comment');
+		let c = b.filter(ed => ed.document.uri.scheme !== 'comment');
 
 		a = uniqBy(a, editor => editor.document.uri.toString());
-		b = uniqBy(b, editor => editor.document.uri.toString());
+		let d = uniqBy(c, editor => editor.document.uri.toString());
 
-		if (a.length !== b.length) {
+		if (a.length !== d.length) {
 			return false;
 		}
 
 		for (let i = 0; i < a.length; i++) {
-			const findRet = b.find(editor => editor.document.uri.toString() === a[i].document.uri.toString());
+			const findRet = d.find(editor => editor.document.uri.toString() === a[i].document.uri.toString());
 
 			if (!findRet) {
 				return false;

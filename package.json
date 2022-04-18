@@ -39,6 +39,10 @@
 				"azdoPullRequests.projectName": {
 					"type": "string"
 				},
+				"azdoSummitFunctionDir": {
+					"type": "string",
+					"description": "This is the directory where the original extracted summit functions are stored"
+				},
 				"azdoPullRequests.orgUrl": {
 					"type": "string"
 				},
@@ -732,11 +736,11 @@
 	"scripts": {
 		"postinstall": "yarn update-dts",
 		"vscode:prepublish": "yarn run bundle",
-		"bundle": "webpack --mode production --env esbuild",
+		"bundle": "webpack --mode production",
 		"bundle:node": "webpack --mode production --config-name extension:node --config-name webviews",
 		"bundle:web": "webpack --mode production --config-name extension:webworker --config-name webviews",
-		"clean": "rm -r dist/ out/",
-		"compile": "webpack --mode development --env esbuild",
+		"clean": "rd /s /q dist out",
+		"compile": "webpack --mode development",
 		"compile:test": "ttsc -p tsconfig.test.json",
 		"compile:node": "webpack --mode development --config-name extension:node --config-name webviews",
 		"compile:web": "webpack --mode development --config-name extension:webworker --config-name webviews",
@@ -748,7 +752,7 @@
 		"test:preprocess": "yarn run compile:test && yarn run test:preprocess-svg",
 		"test:preprocess-svg": "node scripts/preprocess-svg --in ../resources/ --out out/resources",
 		"update-dts": "pushd \"src/@types\" && npx vscode-dts master && npx vscode-dts dev && popd",
-		"watch": "webpack --watch --mode development --env esbuild",
+		"watch": "webpack --watch --mode development",
 		"watch:web": "webpack --watch --mode development --config-name extension:webworker --config-name webviews"
 	},
 	"devDependencies": {
