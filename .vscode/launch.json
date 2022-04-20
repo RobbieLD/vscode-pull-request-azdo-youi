@@ -8,7 +8,8 @@
 			"runtimeExecutable": "${execPath}",
 			"args": [
 				"--extensionDevelopmentPath=${workspaceFolder}",
-				"--disable-extension=GitHub.vscode-pull-request-github-insiders"
+				"--disable-extension=GitHub.vscode-pull-request-github-insiders",
+				"C:\\Code\\Stratos.Youi.Calc.Service"
 			],
 			"skipFiles": ["<node_internals>/**/*.js", "**/node_modules/**/*.js"],
 			"smartStep": true,

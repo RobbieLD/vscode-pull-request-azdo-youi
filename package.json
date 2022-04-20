@@ -39,7 +39,7 @@
 				"azdoPullRequests.projectName": {
 					"type": "string"
 				},
-				"azdoSummitFunctionDir": {
+				"azdoPullRequests.summitFunctionDir": {
 					"type": "string",
 					"description": "This is the directory where the original extracted summit functions are stored"
 				},

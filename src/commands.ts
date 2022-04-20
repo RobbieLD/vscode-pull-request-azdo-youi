@@ -688,6 +688,7 @@ export function registerCommands(
 	context.subscriptions.push(
 		vscode.commands.registerCommand('azdopr.openChangedFile', (value: GitFileChangeNode) => {
 			const openDiff = vscode.workspace.getConfiguration().get('git.openDiffOnClick');
+			console.debug('This might be the place');
 			if (openDiff) {
 				return vscode.commands.executeCommand('azdopr.openDiffView', value);
 			} else {

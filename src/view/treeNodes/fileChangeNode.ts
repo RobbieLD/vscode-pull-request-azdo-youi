@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+import fs from 'fs';
 import * as path from 'path';
 import { GitPullRequestCommentThread } from 'azure-devops-node-api/interfaces/GitInterfaces';
 import * as vscode from 'vscode';
@@ -13,6 +14,7 @@ import { ViewedState } from '../../common/comment';
 import { DiffHunk } from '../../common/diffHunk';
 import { GitChangeType } from '../../common/file';
 import { asImageDataURI, EMPTY_IMAGE_URI, toResourceUri } from '../../common/uri';
+import { SETTINGS_NAMESPACE } from '../../constants';
 import { FileViewedDecorationProvider } from '../fileViewedDecorationProvider';
 import { DecorationProvider } from '../treeDecorationProvider';
 import { TreeNode, TreeNodeParent } from './treeNode';
@@ -194,6 +196,7 @@ export class FileChangeNode extends TreeNode implements vscode.TreeItem {
 
 		let parentURI = (await asImageDataURI(parentFilePath, folderManager.repository)) || parentFilePath;
 		let headURI = (await asImageDataURI(filePath, folderManager.repository)) || filePath;
+
 		if (parentURI.scheme === 'data' || headURI.scheme === 'data') {
 			if (this.status === GitChangeType.ADD) {
 				parentURI = EMPTY_IMAGE_URI;
@@ -211,6 +214,22 @@ export class FileChangeNode extends TreeNode implements vscode.TreeItem {
 			`${pathSegments[pathSegments.length - 1]} (Pull Request)`,
 			opts,
 		);
+
+		// Find the summit file
+		let summitDir = vscode.workspace.getConfiguration(SETTINGS_NAMESPACE).get<string | undefined>('summitFunctionDir');
+		let summitURI = vscode.Uri.file(`${summitDir}${pathSegments[pathSegments.length - 1]}`);
+		if (fs.existsSync(summitURI.fsPath)) {
+			// Add a new tab with the original summit code
+			vscode.commands.executeCommand(
+				'vscode.open',
+				summitURI,
+				{
+					preserveFocus:false,
+					viewColumn: vscode.ViewColumn.Two
+				},
+				'Summit Code'
+			);
+		}
 	}
 }
 
